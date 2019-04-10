@@ -6,7 +6,7 @@ class Garments(models.Model):
     GENDERS = (
         ('women', 'women'),
         ('men', 'men'),
-        ('(trans', 'trans')
+        ('trans', 'trans')
     )
 
 
