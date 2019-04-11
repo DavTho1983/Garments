@@ -1,8 +1,9 @@
 import pandas as pd
+import re
 from django.core.management import BaseCommand
 from django.conf import settings
 
-from Styling.models import Garments, ImageURLs, Images
+from Styling.models import Garments, ImageURLs, Images, ProductCategories
 
 
 class SanitizeData:
@@ -28,39 +29,42 @@ class Command(BaseCommand):
 
 
     def execute(self, *args, **options):
-        garments = self.sanitize.sanitize_garment_data()
-        print(garments['url'])
+        garments = self.sanitize.sanitize_garment_data()[:1000]
+        pattern = re.compile('[^a-zA-Z]')
 
-        for garment in self.garment.iterrows():
+        for garment in garments.iterrows():
             gar = Garments(
-                brand=garment['brand'],
-                gender=garment['gender'],
-                price=garment['price'][0],
-
-
+                product_id=garment[1].product_id,
+                brand=pattern.sub('', garment[1].brand).upper(),
+                gender=garment[1].gender,
+                price=garment[1].price,
+                product_description=garment[1].product_description,
+                product_title=garment[1].product_title,
+                source=garment[1].source,
+                url=garment[1].url,
             )
             gar.save()
 
-            for url in garment['img_urls']:
+            for url in garment[1].image_urls:
                 img_urls = ImageURLs(
                     image_url=url,
-                    garments=gar
+                    garment=gar
                 )
                 img_urls.save()
 
-            for product_category in garment['product_categories']:
+            for product_category in garment[1].product_categories:
                 product_category = ProductCategories(
-                    product_category=product_category,
-                    garments=gar
+                    product_category=pattern.sub('', product_category).upper(),
+                    garment=gar
                 )
-                image.save()
+                product_category.save()
 
-            for image in garment['images']:
+            for image in garment[1].images:
                 image = Images(
-                    url=image[0]['url'],
-                    path=image[0]['path'],
-                    checksum=image[0]['checksum'],
-                    garments=gar
+                    url=image['url'],
+                    path=image['path'],
+                    checksum=image['checksum'],
+                    garment=gar
                 )
                 image.save()
 

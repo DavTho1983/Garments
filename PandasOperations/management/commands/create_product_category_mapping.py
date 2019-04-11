@@ -20,7 +20,6 @@ class Command(BaseCommand):
         with open('Styling/Data/productCategoryMapping.txt', 'w') as productcategoriessmap:
 
             for product_category_list in product_categories:
-                print(product_category_list)
                 for product_category in product_category_list:
                     if product_category not in self.product_categories:
                         self.product_categories.append(product_category)
