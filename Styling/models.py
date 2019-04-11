@@ -10,7 +10,7 @@ class Garments(models.Model):
     )
 
 
-    product_id = models.CharField(max_length=255)
+    product_id = models.CharField(max_length=255, primary_key=False)
     brand = models.CharField(max_length=255, choices=BRANDS_MAPPING)
     gender = models.CharField(max_length=255, choices=GENDERS)
     price = models.DecimalField(max_digits=6, decimal_places=2)

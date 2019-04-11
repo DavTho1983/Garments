@@ -67,18 +67,3 @@ class Command(BaseCommand):
                     garment=gar
                 )
                 image.save()
-
-        # (64134, 13)
-        # brand
-        # gender
-        # image_urls
-        # images
-        # price
-        # product_categories - category
-        # product_categories_mapped - category
-        # product_description
-        # product_id
-        # product_imgs_src
-        # product_title
-        # source
-        # url
